@@ -76,16 +76,6 @@
             font-size: 0.75rem;
             margin-right: 0.5rem;
         }
-        .empty-state {
-            text-align: center;
-            padding: 4rem 2rem;
-            color: #718096;
-        }
-        .empty-state h3 {
-            font-size: 1.5rem;
-            color: #1a1a2e;
-            margin-bottom: 1rem;
-        }
         footer {
             text-align: center;
             padding: 2rem;
@@ -121,14 +111,24 @@
             <p class="page-subtitle">Thoughts on distributed systems, AI agents, and software engineering</p>
 
             <ul class="post-list">
-                <!-- Add new posts at the top -->
-                <!-- Posts can be unlisted by not adding them here but they're still accessible via direct URL -->
-            </ul>
+                <!-- Add new posts at the top (newest first) -->
+                
+                <li class="post-item">
+                    <a href="/blog/post.html?p=building-an-ai-agent-at-2am" target="_blank">
+                        <h3 class="post-title">Why Build Custom Skills? A Deep Dive into Agent Architecture</h3>
+                        <div class="post-meta">
+                            February 4, 2024
+                            <span class="tag">AI</span>
+                            <span class="tag">agents</span>
+                            <span class="tag">architecture</span>
+                        </div>
+                        <p class="post-excerpt">
+                            Skills aren't just "things you can do" — they're crystallized knowledge that compounds. A deep dive into why building custom skills matters, when to split into multiple agents, and how context windows shape architecture decisions.
+                        </p>
+                    </a>
+                </li>
 
-            <div class="empty-state">
-                <h3>Coming Soon</h3>
-                <p>First posts are in the works. Check back soon!</p>
-            </div>
+            </ul>
         </main>
 
         <footer>
