@@ -4,18 +4,18 @@ date: 2024-02-04
 tags: ["AI", "agents", "architecture", "OpenClaw"]
 ---
 
-Great topic for philosophy. Let me think through this:
+I've been building AI agents for a while now, and I've developed a mental model that helps me think about architecture decisions. Here's what I've learned.
 
 ## Why Build Custom Skills?
 
-**The core insight:** Skills aren't just "things you can do" — they're **crystallized knowledge** that compounds.
+**The core insight:** Skills aren't just "things an agent can do" — they're **crystallized knowledge** that compounds.
 
 When you build a skill like `job-hunter`:
-- First run: I fumble, learn the tracker format, figure out hyperlinks
-- Second run: I know the patterns, avoid mistakes
-- Tenth run: I'm fast, consistent, reliable
+- First run: The agent fumbles, learns the tracker format, figures out hyperlinks
+- Second run: It knows the patterns, avoids mistakes
+- Tenth run: It's fast, consistent, reliable
 
-**But here's the key:** If that knowledge lives only in my context window, it dies when the session ends. A skill file **persists** that knowledge:
+**But here's the key:** If that knowledge lives only in the context window, it dies when the session ends. A skill file **persists** that knowledge:
 - Where's the tracker? The exact path.
 - What columns? The specific format.
 - What's the workflow? Discovery → Cover Letter → Apply → Update
@@ -31,23 +31,23 @@ Think about what you do daily:
 
 These are **repeatable patterns with domain knowledge**. When you encode them as skills:
 
-1. **Consistency** — Same quality every time, not dependent on your energy level
-2. **Delegation** — I can do it while you sleep, commute, focus on deep work
-3. **Iteration** — You improve the skill once, every future execution benefits
+1. **Consistency** — Same quality every time, not dependent on energy levels
+2. **Delegation** — The agent can work while you sleep, commute, or focus on deep work
+3. **Iteration** — Improve the skill once, every future execution benefits
 4. **Handoff** — Another agent (or human) can pick up the skill
 
 **The mental model:** You're not training an employee — you're writing a procedure manual that *executes itself*.
 
 ## How Multiple Skills Work Together
 
-Right now, I (Kira) handle multiple skills:
+A single agent can handle multiple skills:
 - `job-hunter` — role discovery, tracker updates, cover letters
 - `twitter-voice` — brainstorm, draft, post
 - `weather` — simple lookup
 
 **This works because:**
 - Skills are **independent** — job-hunter doesn't need twitter-voice
-- **Shared context** — I know you're Raki, your preferences, your timezone
+- **Shared context** — The agent knows your preferences, timezone, history
 - **Small surface area** — Each skill is <500 lines of instructions
 
 **The pattern:**
@@ -55,7 +55,7 @@ Right now, I (Kira) handle multiple skills:
 Agent = Core Identity + Context + Σ(Skills)
 ```
 
-Skills are modular. The agent is the orchestrator that decides *when* to invoke *which* skill based on user intent.
+Skills are modular. The agent orchestrates them — deciding *when* to invoke *which* skill based on user intent.
 
 ## When to Split into Multiple Agents?
 
@@ -83,7 +83,7 @@ Orchestration = one agent coordinating multiple sub-agents.
 - **Human-in-the-loop checkpoints** — Orchestrator collects results, asks you to approve, then proceeds
 - **Resource management** — Can't have 50 agents running; orchestrator queues and prioritizes
 
-**Real example from production work:**
+**Real example from my work:**
 > "1 orchestrator managing 6 domain-expert agents (CI, CD, Vault, Scaffolding, Repository Analysis, Human-in-the-Loop)"
 
 That's orchestration. The orchestrator doesn't *do* CI work — it knows *which agent* handles CI and *when* to invoke it.
@@ -161,7 +161,7 @@ Think of it like this:
 ```
 You (human)
   ↓
-Main Agent (Kira) — your interface, knows you
+Main Agent — your interface, knows your context
   ↓
 Skills — modular capabilities (job-hunter, twitter-voice)
   ↓
