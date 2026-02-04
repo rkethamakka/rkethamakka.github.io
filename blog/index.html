@@ -76,6 +76,16 @@
             font-size: 0.75rem;
             margin-right: 0.5rem;
         }
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #718096;
+        }
+        .empty-state h3 {
+            font-size: 1.5rem;
+            color: #1a1a2e;
+            margin-bottom: 1rem;
+        }
         footer {
             text-align: center;
             padding: 2rem;
@@ -112,23 +122,13 @@
 
             <ul class="post-list">
                 <!-- Add new posts at the top -->
-                
-                <li class="post-item">
-                    <a href="/blog/post.html?p=building-an-ai-agent-at-2am">
-                        <h3 class="post-title">Building an AI Agent at 2 AM: A Late Night Experiment</h3>
-                        <div class="post-meta">
-                            February 4, 2024
-                            <span class="tag">AI</span>
-                            <span class="tag">agents</span>
-                            <span class="tag">OpenClaw</span>
-                        </div>
-                        <p class="post-excerpt">
-                            It's 2 AM and I just shipped a job hunting AI agent. A deep dive into building practical AI tools with OpenClaw, including a job tracker, resume site, and this very blog.
-                        </p>
-                    </a>
-                </li>
-
+                <!-- Posts can be unlisted by not adding them here but they're still accessible via direct URL -->
             </ul>
+
+            <div class="empty-state">
+                <h3>Coming Soon</h3>
+                <p>First posts are in the works. Check back soon!</p>
+            </div>
         </main>
 
         <footer>
