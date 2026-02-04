@@ -1,78 +1,189 @@
 ---
-title: "Building an AI Agent at 2 AM: A Late Night Experiment"
+title: "Why Build Custom Skills? A Deep Dive into Agent Architecture"
 date: 2024-02-04
-tags: ["AI", "agents", "OpenClaw", "automation"]
+tags: ["AI", "agents", "architecture", "skills"]
 ---
 
-It's 2 AM and I just shipped a job hunting AI agent. Let me tell you how that happened.
+Great topic for philosophy. Let me think through this:
 
-## The Setup
+## Why Build Custom Skills?
 
-I've been playing with [OpenClaw](https://github.com/openclaw/openclaw), an open-source framework for building AI agents. Think of it as a way to give Claude (or other LLMs) actual tools — file access, web browsing, shell commands, messaging — and let it do real work.
+**The core insight:** Skills aren't just "things you can do" — they're **crystallized knowledge** that compounds.
 
-Tonight I decided to build something practical: an AI assistant to help with my job search.
+When you build a skill like `job-hunter`:
+- First run: I fumble, learn the tracker format, figure out hyperlinks
+- Second run: I know the patterns, avoid mistakes
+- Tenth run: I'm fast, consistent, reliable
 
-## What We Built
+**But here's the key:** If that knowledge lives only in my context window, it dies when the session ends. A skill file **persists** that knowledge:
+- Where's the tracker? The exact path.
+- What columns? The specific format.
+- What's the workflow? Discovery → Cover Letter → Apply → Update
 
-### 1. Job Hunter Skill
+**You're not just automating a task — you're building institutional memory.**
 
-The core of the system is a "skill" — a structured way to teach the agent how to do something specific. My job-hunter skill can:
+## Why Model Day-to-Day Work as Skills?
 
-- **Discover roles** at target companies (filtering for Staff/Senior SWE positions)
-- **Track applications** in a Google Drive-synced document with clickable hyperlinks
-- **Write cover letters** using existing letters as templates
-- **Auto-apply** to roles (with human confirmation before submitting)
+Think about what you do daily:
+- Check email → triage → respond
+- Review PRs → leave comments → approve/request changes
+- Track tasks → update status → notify stakeholders
 
-The tracker now has 36 companies and 75 role hyperlinks, all added programmatically.
+These are **repeatable patterns with domain knowledge**. When you encode them as skills:
 
-### 2. This Website
+1. **Consistency** — Same quality every time, not dependent on your energy level
+2. **Delegation** — I can do it while you sleep, commute, focus on deep work
+3. **Iteration** — You improve the skill once, every future execution benefits
+4. **Handoff** — Another agent (or human) can pick up the skill
 
-Yep, this blog you're reading was also built tonight. The agent:
+**The mental model:** You're not training an employee — you're writing a procedure manual that *executes itself*.
 
-- Extracted text from my PDF resume
-- Converted it to a modern HTML page with responsive design
-- Deployed it to GitHub Pages
-- Set up this markdown-based blog system
+## How Multiple Skills Work Together
 
-All through conversation. I'd say "build me a resume site" and it would figure out the steps, execute them, and handle the edge cases.
+Right now, I (Kira) handle multiple skills:
+- `job-hunter` — role discovery, tracker updates, cover letters
+- `twitter-voice` — brainstorm, draft, post
+- `weather` — simple lookup
 
-### 3. Twitter Integration
+**This works because:**
+- Skills are **independent** — job-hunter doesn't need twitter-voice
+- **Shared context** — I know you're Raki, your preferences, your timezone
+- **Small surface area** — Each skill is <500 lines of instructions
 
-We also set up a Twitter presence for sharing learnings and connecting with other engineers. The agent can draft tweets, suggest engagement opportunities, and help maintain a consistent voice.
+**The pattern:**
+```
+Agent = Core Identity + Context + Σ(Skills)
+```
 
-## The Interesting Parts
+Skills are modular. The agent is the orchestrator that decides *when* to invoke *which* skill based on user intent.
 
-**Natural language → Real actions.** I didn't write code tonight. I described what I wanted, and the agent translated that into file operations, API calls, and browser automation. When something broke (and things did break), we debugged together.
+## When to Split into Multiple Agents?
 
-**Iterative refinement.** The first version of the tracker had the wrong columns. The first cover letter was too generic. The first website upload corrupted the HTML. Each time, we identified the issue and fixed it. The agent learned from mistakes within the session.
+**Stay single-agent when:**
+- Skills share context (your preferences, history, relationships)
+- Total skill instructions fit comfortably in context (~50K tokens)
+- Tasks are sequential, not parallel
+- You want conversational continuity
 
-**Compound capabilities.** The job-hunter skill combines web scraping, document manipulation (python-docx for hyperlinks), file management, and browser automation. None of these are impressive alone, but together they create something useful.
+**Split into multi-agent when:**
+- **Domain expertise diverges** — A coding agent vs. a research agent have different mental models
+- **Context isolation needed** — Agent A shouldn't see Agent B's sensitive data
+- **Parallel execution** — You want 5 agents researching 5 companies simultaneously
+- **Different models/capabilities** — One agent needs vision, another needs code execution
 
-## What I Learned
+**The heuristic:** If two "skills" would benefit from *forgetting* each other's context, they should be separate agents.
 
-1. **AI agents are force multipliers, not replacements.** I still made all the decisions. The agent executed. This is the right balance for now.
+## Agent Orchestration: When?
 
-2. **Skills > Prompts.** A well-structured skill file beats a clever prompt. It gives the agent clear procedures, constraints, and context.
+Orchestration = one agent coordinating multiple sub-agents.
 
-3. **Trust is earned incrementally.** The agent asks before sending emails or making external changes. It shows me screenshots before submitting applications. This builds confidence.
+**You need it when:**
+- Task requires **decomposition** — "Research 10 companies" → spawn 10 parallel research agents
+- **Handoffs** — Research agent passes to analysis agent passes to report agent
+- **Human-in-the-loop checkpoints** — Orchestrator collects results, asks you to approve, then proceeds
+- **Resource management** — Can't have 50 agents running; orchestrator queues and prioritizes
 
-4. **Late night coding hits different with an AI pair.** There's something surreal about having a conversation that results in real infrastructure. It's like pair programming, but your partner never gets tired and has read all the documentation.
+**Real example from production work:**
+> "1 orchestrator managing 6 domain-expert agents (CI, CD, Vault, Scaffolding, Repository Analysis, Human-in-the-Loop)"
 
-## What's Next
+That's orchestration. The orchestrator doesn't *do* CI work — it knows *which agent* handles CI and *when* to invoke it.
 
-- Write more blog posts (the agent can help draft these too)
-- Actually apply to some of these 75 roles
-- Explore more automation possibilities
-- Maybe teach the agent to write better tweets than I can
+## Why Think This Way When Building Agents?
 
-## Try It Yourself
+**Because the alternative is chaos.**
 
-If you're curious about building AI agents, check out:
-- [OpenClaw](https://github.com/openclaw/openclaw) - The framework I used
-- [Claude](https://www.anthropic.com/) - The LLM behind this
+Without skill/agent boundaries:
+- Every agent becomes a monolith
+- Context windows fill with irrelevant instructions
+- Errors cascade (one bad skill pollutes everything)
+- No reusability
 
-The barrier to entry is lower than you think. And if you're job hunting, maybe an agent can help with that too.
+**With clear boundaries:**
+- Skills are testable in isolation
+- Agents have clear responsibilities
+- You can swap implementations (different model, different approach)
+- Debugging is tractable
 
----
+**The software engineering parallel:** This is just good architecture. Single responsibility. Separation of concerns. Loose coupling.
 
-*Built at 2 AM, deployed at 3 AM. No regrets.*
+## Context Windows & Boundaries
+
+**Current reality (200K tokens):**
+- ~150K words, or ~300 pages
+- Sounds huge, but fills fast with:
+  - System prompts (~5-10K)
+  - Skill instructions (~10-50K for complex skills)
+  - Conversation history (~20-50K)
+  - Tool outputs (can be huge — docx files, web pages, etc.)
+
+**This forces discipline:**
+- Keep skills focused
+- Summarize/compress history
+- Don't load everything — load what's needed
+- Clear stale context
+
+**The 200K constraint is actually healthy** — it prevents lazy "dump everything" architectures.
+
+## What Changes with Million-Token Context?
+
+**The tempting thought:** "I can fit everything! No need for multi-agent!"
+
+**Reality:** Context length ≠ context quality.
+
+**Problems with mega-context:**
+1. **Attention degradation** — Models struggle to attend to relevant info in massive contexts ("lost in the middle" problem)
+2. **Latency** — More tokens = slower responses
+3. **Cost** — Token usage scales linearly (or worse)
+4. **Debugging hell** — When something goes wrong, which of the 500K tokens caused it?
+
+**What actually changes:**
+- **Longer conversations** without summarization
+- **Bigger documents** can be processed whole (full codebases)
+- **More examples** for in-context learning
+- **Richer memory** within a session
+
+**What doesn't change:**
+- Need for clear boundaries
+- Value of modular skills
+- Benefits of parallel execution
+- Importance of isolation
+
+**My prediction:** Million-token contexts will make single-agent more viable for *some* use cases, but the multi-agent pattern will remain superior for:
+- Parallel work
+- Isolated domains
+- Long-running tasks
+- Production systems
+
+## The Mental Model
+
+Think of it like this:
+
+```
+You (human)
+  ↓
+Main Agent (Kira) — your interface, knows you
+  ↓
+Skills — modular capabilities (job-hunter, twitter-voice)
+  ↓
+Sub-agents — for parallel/specialized work
+  ↓
+Tools — atomic actions (read, write, browser, etc.)
+```
+
+**Skills improve the agent. Agent coordinates skills. You improve skills.**
+
+It's a flywheel:
+1. You notice a repeated task
+2. You build a skill for it
+3. Agent executes it better each time
+4. You refine the skill
+5. Agent gets even better
+6. Repeat
+
+## The Punchline
+
+**Building skills isn't about automation — it's about encoding your expertise into something that persists, compounds, and executes without you.**
+
+Each skill you build makes future-you (and future-agents) more capable.
+
+That's the game. 🎯
