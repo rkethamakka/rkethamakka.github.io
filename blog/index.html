@@ -9,33 +9,131 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; line-height: 1.6; color: #1a1a2e; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); min-height: 100vh; padding: 2rem; }
-        .container { max-width: 900px; margin: 0 auto; background: white; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); overflow: hidden; }
-        header { background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); color: white; padding: 2rem 3rem; }
-        .header-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            color: #1a1a2e;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 2rem;
+        }
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+        }
+        header {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: white;
+            padding: 2rem 3rem;
+        }
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
         header h1 { font-size: 1.75rem; font-weight: 700; }
         header h1 a { color: white; text-decoration: none; }
-        nav a { color: #a5b4fc; text-decoration: none; margin-left: 1.5rem; font-size: 0.95rem; transition: color 0.3s; }
+        nav a {
+            color: #a5b4fc;
+            text-decoration: none;
+            margin-left: 1.5rem;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
         nav a:hover { color: white; }
         main { padding: 2rem 3rem; }
         .page-title { font-size: 2rem; color: #1a1a2e; margin-bottom: 0.5rem; }
         .page-subtitle { color: #718096; margin-bottom: 2rem; }
         .post-list { list-style: none; }
-        .empty-state { text-align: center; padding: 4rem 2rem; color: #718096; }
-        .empty-state h3 { font-size: 1.5rem; color: #1a1a2e; margin-bottom: 1rem; }
-        footer { text-align: center; padding: 2rem; background: #f8fafc; color: #718096; font-size: 0.9rem; }
+        .post-item {
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+            border-left: 4px solid #667eea;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .post-item:hover {
+            transform: translateX(4px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.15);
+        }
+        .post-item a { text-decoration: none; color: inherit; display: block; }
+        .post-title { font-size: 1.25rem; color: #1a1a2e; margin-bottom: 0.5rem; font-weight: 600; }
+        .post-meta { font-size: 0.85rem; color: #718096; margin-bottom: 0.75rem; }
+        .post-excerpt { color: #4a5568; font-size: 0.95rem; }
+        .tag {
+            display: inline-block;
+            background: #e2e8f0;
+            color: #667eea;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            margin-right: 0.5rem;
+        }
+        footer {
+            text-align: center;
+            padding: 2rem;
+            background: #f8fafc;
+            color: #718096;
+            font-size: 0.9rem;
+        }
+        @media (max-width: 640px) {
+            body { padding: 1rem; }
+            header { padding: 1.5rem; }
+            .header-content { flex-direction: column; text-align: center; }
+            nav a { margin: 0.5rem; }
+            main { padding: 1.5rem; }
+        }
     </style>
 </head>
 <body>
     <div class="container">
-        <header><div class="header-content"><h1><a href="/">Ravi Kiran</a></h1><nav><a href="/">Resume</a><a href="/blog/">Blog</a><a href="https://github.com/rkethamakka" target="_blank">GitHub</a><a href="https://x.com/rkethamakka" target="_blank">Twitter</a></nav></div></header>
+        <header>
+            <div class="header-content">
+                <h1><a href="/">Ravi Kiran</a></h1>
+                <nav>
+                    <a href="/">Resume</a>
+                    <a href="/blog/">Blog</a>
+                    <a href="https://github.com/rkethamakka" target="_blank">GitHub</a>
+                    <a href="https://x.com/rkethamakka" target="_blank">Twitter</a>
+                </nav>
+            </div>
+        </header>
+
         <main>
             <h2 class="page-title">Blog</h2>
             <p class="page-subtitle">Thoughts on distributed systems, AI agents, and software engineering</p>
-            <ul class="post-list"></ul>
-            <div class="empty-state"><h3>Coming Soon</h3><p>First posts are in the works. Check back soon!</p></div>
+
+            <ul class="post-list">
+                <!-- Add new posts at the top -->
+                
+                <li class="post-item">
+                    <a href="/blog/post.html?p=building-an-ai-agent-at-2am">
+                        <h3 class="post-title">Building an AI Agent at 2 AM: A Late Night Experiment</h3>
+                        <div class="post-meta">
+                            February 4, 2024
+                            <span class="tag">AI</span>
+                            <span class="tag">agents</span>
+                            <span class="tag">OpenClaw</span>
+                        </div>
+                        <p class="post-excerpt">
+                            It's 2 AM and I just shipped a job hunting AI agent. A deep dive into building practical AI tools with OpenClaw, including a job tracker, resume site, and this very blog.
+                        </p>
+                    </a>
+                </li>
+
+            </ul>
         </main>
-        <footer><p>Built with ❤️ • <a href="/" style="color: #667eea;">Back to Resume</a></p></footer>
+
+        <footer>
+            <p>Built with ❤️ • <a href="/" style="color: #667eea;">Back to Resume</a></p>
+        </footer>
     </div>
 </body>
 </html>
