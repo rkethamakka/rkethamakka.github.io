@@ -166,7 +166,7 @@ Knowing the type helps decide boundaries. CRUD skills should be thin. Generation
 
 ## The Code
 
-All these skills are open source: [github.com/rkethamakka/rkethamakka.github.io/tree/main/skills](https://github.com/rkethamakka/rkethamakka.github.io/tree/main/skills)
+All these skills are open source: [github.com/rkethamakka/openclaw-skills](https://github.com/rkethamakka/openclaw-skills)
 
 Browse them, fork them, adapt them for your own workflows.
 
