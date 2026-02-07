@@ -1,14 +1,14 @@
 ---
 title: "Refactoring Skills: From Monolith to Modular"
-date: 2024-02-04
+date: 2026-02-04
 tags: ["AI", "agents", "skills", "refactoring", "OpenClaw"]
 ---
 
-Yesterday I wrote about [mental models for building AI agents](/blog/post.html?p=ai-agents-mental-model-openclaw). Today I'm sharing what happened when I actually applied those principles — refactoring a 900-line monolithic skill into something maintainable.
+Yesterday I wrote about [mental models for building AI agents](/blog/post.html?p=ai-agents-mental-model-openclaw). Today I'm sharing what happened when I actually applied those principles. Refactoring a 900-line monolithic skill into something maintainable.
 
 ## The Problem: A Skill That Did Everything
 
-I had a skill called `job-hunter`. It started simple — help me track job applications. Then it grew:
+I had a skill called `job-hunter`. It started simple. Help me track job applications. Then it grew:
 
 - Role discovery (search career pages)
 - Tracker management (read/write a docx file)
@@ -19,7 +19,7 @@ I had a skill called `job-hunter`. It started simple — help me track job appli
 
 **900 lines.** One skill doing five different jobs.
 
-Every time I asked about my job search, the agent loaded all 900 lines into context — even if I just wanted to check my tracker status.
+Every time I asked about my job search, the agent loaded all 900 lines into context, even if I just wanted to check my tracker status.
 
 ## The Signals It Was Time to Split
 
@@ -52,12 +52,12 @@ job-hunter/
 
 ```
 skills/
-├── job-tracker/SKILL.md    (~180 lines) — Tracker CRUD
-├── job-roles/SKILL.md      (~100 lines) — Role discovery
-├── cover-letter/SKILL.md   (~130 lines) — Cover letter writing
-├── job-apply/SKILL.md      (~220 lines) — Application automation
-├── referral-ask/SKILL.md   (~120 lines) — Referral messages
-└── job-data/profile.json   — Shared profile data
+├── job-tracker/SKILL.md    (~180 lines) - Tracker CRUD
+├── job-roles/SKILL.md      (~100 lines) - Role discovery
+├── cover-letter/SKILL.md   (~130 lines) - Cover letter writing
+├── job-apply/SKILL.md      (~220 lines) - Application automation
+├── referral-ask/SKILL.md   (~120 lines) - Referral messages
+└── job-data/profile.json   - Shared profile data
 ```
 
 **Total: ~750 lines across 5 files** (actually smaller than the original because deduplication).
@@ -68,13 +68,13 @@ skills/
 
 | Skill | Trigger | Standalone? |
 |-------|---------|-------------|
-| `job-tracker` | "Check my pipeline" | Yes — just reads/writes docx |
-| `job-roles` | "Find roles at Stripe" | Yes — just searches career pages |
-| `cover-letter` | "Write a cover letter" | Yes — just generates text |
+| `job-tracker` | "Check my pipeline" | Yes, just reads/writes docx |
+| `job-roles` | "Find roles at Stripe" | Yes, just searches career pages |
+| `cover-letter` | "Write a cover letter" | Yes, just generates text |
 | `job-apply` | "Apply to Anthropic" | Depends on tracker + cover letters |
 | `referral-ask` | "Write referral message" | Depends on tracker for roles |
 
-Notice `job-apply` and `referral-ask` have dependencies. That's fine — they can reference other skills. The key is each skill has **one primary responsibility**.
+Notice `job-apply` and `referral-ask` have dependencies. That's fine. They can reference other skills. The key is each skill has **one primary responsibility**.
 
 ## The Shared Data Pattern
 
@@ -134,21 +134,21 @@ Every skill references this file. Update once, propagates everywhere.
 
 **Split when:**
 
-1. **Multiple triggers** — The skill responds to unrelated requests ("check tracker" vs "write cover letter")
+1. **Multiple triggers**: The skill responds to unrelated requests ("check tracker" vs "write cover letter")
 
-2. **Scroll problem** — You scroll past >200 lines of unrelated content
+2. **Scroll problem**: You scroll past >200 lines of unrelated content
 
-3. **Token waste** — Simple requests load complex instructions
+3. **Token waste**: Simple requests load complex instructions
 
-4. **Duplication** — Same data/logic appears in multiple sections
+4. **Duplication**: Same data/logic appears in multiple sections
 
 **Keep together when:**
 
-1. **Tight coupling** — Steps always happen together
+1. **Tight coupling**: Steps always happen together
 
-2. **Shared state** — Operations need to see each other's intermediate results
+2. **Shared state**: Operations need to see each other's intermediate results
 
-3. **Small enough** — Under 300 lines, probably fine
+3. **Small enough**: Under 300 lines, probably fine
 
 ## Skill Taxonomy
 
@@ -190,7 +190,7 @@ This refactor took about 30 minutes with my agent's help. Now I have:
 - Lower token usage per request
 - Code I can actually maintain
 
-Tomorrow I'll probably find something else to split. That's the game — continuous improvement, one skill at a time.
+Tomorrow I'll probably find something else to split. That's the game. Continuous improvement, one skill at a time.
 
 ---
 

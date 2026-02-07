@@ -1,6 +1,6 @@
 ---
 title: "Building AI Agents: A Mental Model + OpenClaw"
-date: 2024-02-04
+date: 2026-02-04
 tags: ["AI", "agents", "architecture", "OpenClaw"]
 ---
 
@@ -8,7 +8,7 @@ I've been building AI agents for a while now, and I've developed a mental model 
 
 ## Why Build Custom Skills?
 
-**The core insight:** Skills aren't just "things an agent can do" — they're **crystallized knowledge** that compounds.
+**The core insight:** Skills aren't just "things an agent can do". They're **crystallized knowledge** that compounds.
 
 When you build a skill like `job-hunter`:
 - First run: The agent fumbles, learns the tracker format, figures out hyperlinks
@@ -20,7 +20,7 @@ When you build a skill like `job-hunter`:
 - What columns? The specific format.
 - What's the workflow? Discovery → Cover Letter → Apply → Update
 
-**You're not just automating a task — you're building institutional memory.**
+**You're not just automating a task. You're building institutional memory.**
 
 ## Why Model Day-to-Day Work as Skills?
 
@@ -31,31 +31,31 @@ Think about what you do daily:
 
 These are **repeatable patterns with domain knowledge**. When you encode them as skills:
 
-1. **Consistency** — Same quality every time, not dependent on energy levels
-2. **Delegation** — The agent can work while you sleep, commute, or focus on deep work
-3. **Iteration** — Improve the skill once, every future execution benefits
-4. **Handoff** — Another agent (or human) can pick up the skill
+1. **Consistency**: Same quality every time, not dependent on energy levels
+2. **Delegation**: The agent can work while you sleep, commute, or focus on deep work
+3. **Iteration**: Improve the skill once, every future execution benefits
+4. **Handoff**: Another agent (or human) can pick up the skill
 
-**The mental model:** You're not training an employee — you're writing a procedure manual that *executes itself*.
+**The mental model:** You're not training an employee. You're writing a procedure manual that *executes itself*.
 
 ## How Multiple Skills Work Together
 
 A single agent can handle multiple skills:
-- `job-hunter` — role discovery, tracker updates, cover letters
-- `twitter-voice` — brainstorm, draft, post
-- `weather` — simple lookup
+- `job-hunter`: role discovery, tracker updates, cover letters
+- `twitter-voice`: brainstorm, draft, post
+- `weather`: simple lookup
 
 **This works because:**
-- Skills are **independent** — job-hunter doesn't need twitter-voice
-- **Shared context** — The agent knows your preferences, timezone, history
-- **Small surface area** — Each skill is <500 lines of instructions
+- Skills are **independent**. job-hunter doesn't need twitter-voice
+- **Shared context**: The agent knows your preferences, timezone, history
+- **Small surface area**: Each skill is <500 lines of instructions
 
 **The pattern:**
 ```
 Agent = Core Identity + Context + Σ(Skills)
 ```
 
-Skills are modular. The agent orchestrates them — deciding *when* to invoke *which* skill based on user intent.
+Skills are modular. The agent orchestrates them, deciding *when* to invoke *which* skill based on user intent.
 
 ## When to Split into Multiple Agents?
 
@@ -66,10 +66,10 @@ Skills are modular. The agent orchestrates them — deciding *when* to invoke *w
 - You want conversational continuity
 
 **Split into multi-agent when:**
-- **Domain expertise diverges** — A coding agent vs. a research agent have different mental models
-- **Context isolation needed** — Agent A shouldn't see Agent B's sensitive data
-- **Parallel execution** — You want 5 agents researching 5 companies simultaneously
-- **Different models/capabilities** — One agent needs vision, another needs code execution
+- **Domain expertise diverges**: A coding agent vs. a research agent have different mental models
+- **Context isolation needed**: Agent A shouldn't see Agent B's sensitive data
+- **Parallel execution**: You want 5 agents researching 5 companies simultaneously
+- **Different models/capabilities**: One agent needs vision, another needs code execution
 
 **The heuristic:** If two "skills" would benefit from *forgetting* each other's context, they should be separate agents.
 
@@ -78,15 +78,15 @@ Skills are modular. The agent orchestrates them — deciding *when* to invoke *w
 Orchestration = one agent coordinating multiple sub-agents.
 
 **You need it when:**
-- Task requires **decomposition** — "Research 10 companies" → spawn 10 parallel research agents
-- **Handoffs** — Research agent passes to analysis agent passes to report agent
-- **Human-in-the-loop checkpoints** — Orchestrator collects results, asks you to approve, then proceeds
-- **Resource management** — Can't have 50 agents running; orchestrator queues and prioritizes
+- Task requires **decomposition**: "Research 10 companies" → spawn 10 parallel research agents
+- **Handoffs**: Research agent passes to analysis agent passes to report agent
+- **Human-in-the-loop checkpoints**: Orchestrator collects results, asks you to approve, then proceeds
+- **Resource management**: Can't have 50 agents running; orchestrator queues and prioritizes
 
 **Real example from my work:**
 > "1 orchestrator managing 6 domain-expert agents (CI, CD, Vault, Scaffolding, Repository Analysis, Human-in-the-Loop)"
 
-That's orchestration. The orchestrator doesn't *do* CI work — it knows *which agent* handles CI and *when* to invoke it.
+That's orchestration. The orchestrator doesn't *do* CI work. It knows *which agent* handles CI and *when* to invoke it.
 
 ## Why Think This Way When Building Agents?
 
@@ -114,15 +114,15 @@ Without skill/agent boundaries:
   - System prompts (~5-10K)
   - Skill instructions (~10-50K for complex skills)
   - Conversation history (~20-50K)
-  - Tool outputs (can be huge — docx files, web pages, etc.)
+  - Tool outputs (can be huge: docx files, web pages, etc.)
 
 **This forces discipline:**
 - Keep skills focused
 - Summarize/compress history
-- Don't load everything — load what's needed
+- Don't load everything, load what's needed
 - Clear stale context
 
-**The 200K constraint is actually healthy** — it prevents lazy "dump everything" architectures.
+**The 200K constraint is actually healthy.** It prevents lazy "dump everything" architectures.
 
 ## What Changes with Million-Token Context?
 
@@ -131,10 +131,10 @@ Without skill/agent boundaries:
 **Reality:** Context length ≠ context quality.
 
 **Problems with mega-context:**
-1. **Attention degradation** — Models struggle to attend to relevant info in massive contexts ("lost in the middle" problem)
-2. **Latency** — More tokens = slower responses
-3. **Cost** — Token usage scales linearly (or worse)
-4. **Debugging hell** — When something goes wrong, which of the 500K tokens caused it?
+1. **Attention degradation**: Models struggle to attend to relevant info in massive contexts ("lost in the middle" problem)
+2. **Latency**: More tokens = slower responses
+3. **Cost**: Token usage scales linearly (or worse)
+4. **Debugging hell**: When something goes wrong, which of the 500K tokens caused it?
 
 **What actually changes:**
 - **Longer conversations** without summarization
@@ -161,13 +161,13 @@ Think of it like this:
 ```
 You (human)
   ↓
-Main Agent — your interface, knows your context
+Main Agent - your interface, knows your context
   ↓
-Skills — modular capabilities (job-hunter, twitter-voice)
+Skills - modular capabilities (job-hunter, twitter-voice)
   ↓
-Sub-agents — for parallel/specialized work
+Sub-agents - for parallel/specialized work
   ↓
-Tools — atomic actions (read, write, browser, etc.)
+Tools - atomic actions (read, write, browser, etc.)
 ```
 
 **Skills improve the agent. Agent coordinates skills. You improve skills.**
@@ -182,7 +182,7 @@ It's a flywheel:
 
 ## The Punchline
 
-**Building skills isn't about automation — it's about encoding your expertise into something that persists, compounds, and executes without you.**
+**Building skills isn't about automation. It's about encoding your expertise into something that persists, compounds, and executes without you.**
 
 Each skill you build makes future-you (and future-agents) more capable.
 

@@ -1,10 +1,10 @@
 ---
 title: "Keeping Skills Public Without Leaking Personal Data"
-date: 2024-02-04
+date: 2026-02-04
 tags: ["AI", "agents", "skills", "automation", "privacy"]
 ---
 
-I wanted to open-source my OpenClaw skills. Problem: they're full of personal data — emails, phone numbers, file paths. Here's how I solved it.
+I wanted to open-source my OpenClaw skills. Problem: they're full of personal data. Emails, phone numbers, file paths. Here's how I solved it.
 
 ## The Problem
 
@@ -85,9 +85,9 @@ Now I just say "sync skills to repo" and my agent runs it.
 
 ## Two Copies, One Truth
 
-**Local skills:** Real paths, real emails — they work.
+**Local skills:** Real paths, real emails. They work.
 
-**Public skills:** Placeholders — they're templates.
+**Public skills:** Placeholders. They're templates.
 
 The sync script is the bridge. Local is always the source of truth.
 
@@ -122,14 +122,14 @@ Should return nothing. If it does, I add the pattern to REPLACEMENTS.
 
 ## Why Bother?
 
-1. **Portfolio** — Show what you've built
-2. **Sharing** — Others can learn from your patterns
-3. **Backup** — Public repo = offsite backup
-4. **Forcing function** — Knowing it's public makes you write cleaner skills
+1. **Portfolio**: Show what you've built
+2. **Sharing**: Others can learn from your patterns
+3. **Backup**: Public repo = offsite backup
+4. **Forcing function**: Knowing it's public makes you write cleaner skills
 
 ## The Skill That Syncs Itself
 
-The sync script is itself a skill. And yes, it syncs itself too — with its own paths sanitized.
+The sync script is itself a skill. And yes, it syncs itself too, with its own paths sanitized.
 
 It's skills all the way down.
 

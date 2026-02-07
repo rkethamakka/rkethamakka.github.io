@@ -36,11 +36,11 @@ When I ask "what's my pipeline?" I get an instant rollup. Not a pile of browser 
 
 **job-roles**: Career page crawler. Point it at a company, it finds matching roles. Snap had 5 relevant positions. Figma had 4. Plaid had 3. It filters by level (L6/L7), location (Seattle/remote), and keywords (platform, distributed systems, AI).
 
-**cover-letter**: Tailored letter generator. Feed it a job description and it writes a cover letter matching my experience to their requirements. Not generic fluff - specific examples. The Salesforce letter mentions my API gateway work. The Microsoft letter mentions distributed systems scale.
+**cover-letter**: Tailored letter generator. Feed it a job description and it writes a cover letter matching my experience to their requirements. Not generic fluff, specific examples. The Salesforce letter mentions my API gateway work. The Microsoft letter mentions distributed systems scale.
 
 **job-apply**: Browser automation for form submission. Navigate to application page, fill fields, upload resume. Most ATSs follow patterns: personal info, work authorization, resume upload. Automate the pattern, handle exceptions manually.
 
-**referral-ask**: Message generator for LinkedIn and email outreach. Given a role and a potential referrer, it crafts a personalized ask. Not "can you refer me" spam - context about the role, why I'm interested, what I'd bring.
+**referral-ask**: Message generator for LinkedIn and email outreach. Given a role and a potential referrer, it crafts a personalized ask. Not "can you refer me" spam, but context about the role, why I'm interested, what I'd bring.
 
 ## What Actually Happens
 
@@ -56,7 +56,7 @@ Cover letters generated, saved to Google Drive. Browser opens Workday, creates a
 
 > "Who do I know at Figma?"
 
-LinkedIn search for 2nd-degree connections at Figma in engineering. Find Owais Ahmed - 2nd degree, Seattle. Generate a referral request message.
+LinkedIn search for 2nd-degree connections at Figma in engineering. Find Owais Ahmed, 2nd degree, Seattle. Generate a referral request message.
 
 Total time: maybe 20 minutes. Manual version: 3+ hours.
 
@@ -87,7 +87,7 @@ I used to spend 30-45 minutes per cover letter. Researching the company, finding
 4. Generates letter with specific examples
 5. I review and adjust tone
 
-Time: 5 minutes including review. Quality: honestly better than my manual versions. The AI is relentless about specificity - it won't write "I have extensive experience" when it can write "I led the API Gateway platform serving 10K TPS across 50 teams."
+Time: 5 minutes including review. Quality: honestly better than my manual versions. The AI is relentless about specificity. It won't write "I have extensive experience" when it can write "I led the API Gateway platform serving 10K TPS across 50 teams."
 
 I've generated 12+ tailored cover letters this week. Each one references specific projects from my background that match the role requirements.
 
@@ -101,7 +101,7 @@ Every company uses a different ATS with different quirks:
 - **Apple Jobs**: Custom system, requires Apple ID, different form for each role.
 - **Custom ATSs**: Manual fallback. Some things aren't worth automating.
 
-The skill has a "capabilities" section for each ATS family. What's automatable, what's not. Resume uploads on Lever sometimes need manual file picker interaction - browser automation can't fully handle OS-level dialogs.
+The skill has a "capabilities" section for each ATS family. What's automatable, what's not. Resume uploads on Lever sometimes need manual file picker interaction since browser automation can't fully handle OS-level dialogs.
 
 ## The Dashboard
 
@@ -136,13 +136,13 @@ The automation handles volume. The human handles nuance.
 
 Job searching sucks. It's repetitive, demoralizing, and weirdly time-consuming for what should be simple transactions. "Here's my resume. Want to talk?"
 
-But treating it like an engineering problem helps. Not because it makes rejection hurt less - it doesn't. Because it removes the friction that makes the process feel endless.
+But treating it like an engineering problem helps. Not because it makes rejection hurt less. It doesn't. Because it removes the friction that makes the process feel endless.
 
 When applying to one company takes 20 minutes instead of 2 hours, you can apply to more companies. More applications mean more shots. More shots mean better odds.
 
 ## Building the System
 
-The skills are in my public repo (sanitized, of course - no personal data). But the pattern is more important than the code:
+The skills are in my public repo (sanitized, of course, no personal data). But the pattern is more important than the code:
 
 1. **Centralize state**: One tracker, one source of truth
 2. **Standardize statuses**: If you have 21 different ways to say "in progress," you have chaos
